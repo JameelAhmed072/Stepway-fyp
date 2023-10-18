@@ -25,7 +25,7 @@ public class Certification {
 
     private Date dateEarned;
 
-    @OneToMany
-    @JoinColumn(name = "userId", referencedColumnName = "id")
-    private User userId;
+//    @OneToMany
+//    @JoinColumn(name = "userId", referencedColumnName = "id")
+//    private User userId;
 }

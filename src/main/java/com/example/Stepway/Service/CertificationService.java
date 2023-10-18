@@ -11,6 +11,7 @@ import java.util.List;
 public interface CertificationService {
     List<CertificationDto> getALlCertifications();
 
+
     public CertificationDto getCertificationById(Long id);
 
     public CertificationDto createCertification(CertificationDto certificationDto);
