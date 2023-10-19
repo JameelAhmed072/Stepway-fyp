@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -32,9 +33,9 @@ public class CourseDto {
     private Long discount;
 
     @NotNull(message = "Course start date should not be Null")
-    private Date startDate;
+    private LocalDate startDate;
     @NotNull(message = "Course end date should not be Null")
-    private Date endDate;
+    private LocalDate endDate;
 
     @NotBlank(message = "Course type should not be Blank")
     private String type;  //  this is either a course or a workshop

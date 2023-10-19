@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -23,8 +24,8 @@ public class CertificationDto {
     private String name;
 
     @NotNull(message = "Certfification date must be mentioned")
-    private Date dateEarned;
+    private LocalDate dateEarned;
     @NotNull(message = "User ID cannot be null")
 
-    private User userId;
+    private Long userId;
 }

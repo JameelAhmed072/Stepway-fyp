@@ -4,7 +4,6 @@ package com.example.Stepway.Domain;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
@@ -13,19 +12,17 @@ import java.time.LocalDate;
 @Setter
 @Builder
 
-
 @Entity
-public class Certification {
+public class Resume {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-
-    private LocalDate dateEarned;
+    private String url;  ///   ask about this from sir
 
     @ManyToOne
     @JoinColumn(name = "userId", referencedColumnName = "id")
     private User userId;
+
 }

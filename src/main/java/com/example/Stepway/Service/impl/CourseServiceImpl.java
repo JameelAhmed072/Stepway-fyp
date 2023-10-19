@@ -50,7 +50,13 @@ public class CourseServiceImpl implements CourseService {
     public CourseDto updateCourseById(Long id, CourseDto courseDto) {
         Course course = courseRepository.findById(id).orElseThrow(()-> new ResourceNotFound("Course not Found with the id : "+id));
 
-//        course.setBio(courseDto.getBio());
+        course.setCourseName(courseDto.getCourseName());
+        course.setDescription(courseDto.getDescription());
+        course.setPrice(courseDto.getPrice());
+        course.setType(courseDto.getType());
+        course.setDiscount(courseDto.getDiscount());
+        course.setStartDate(courseDto.getStartDate());
+        course.setEndDate(courseDto.getEndDate());
 
         Course updatedCourse = courseRepository.save(course);
         return modelMapper.map(updatedCourse,CourseDto.class);

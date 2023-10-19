@@ -51,7 +51,9 @@ public class CertificationServiceImpl implements CertificationService {
     public CertificationDto updateCertificationById(Long id, CertificationDto certificationDto) {
         Certification certification = certificationRepository.findById(id).orElseThrow(()-> new ResourceNotFound("Certification not Found with the id : "+id));
 
-//        course.setBio(courseDto.getBio());
+        certification.setName(certificationDto.getName());
+        certification.setDateEarned(certificationDto.getDateEarned());
+
 
         Certification updatedCertification = certificationRepository.save(certification);
         return modelMapper.map(updatedCertification,CertificationDto.class);
