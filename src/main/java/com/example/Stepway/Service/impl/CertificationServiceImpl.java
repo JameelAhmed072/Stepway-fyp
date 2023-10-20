@@ -60,7 +60,7 @@ public class CertificationServiceImpl implements CertificationService {
     }
 
     @Override
-    public void deleteProfileById(Long id) {
+    public void deleteCertificationById(Long id) {
 
         if(!certificationRepository.existsById(id)){
             throw new ResourceNotFound("Certificate not found with the id : "+id);

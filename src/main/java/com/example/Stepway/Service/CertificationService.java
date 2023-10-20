@@ -18,5 +18,5 @@ public interface CertificationService {
 
     CertificationDto updateCertificationById(Long id,CertificationDto certificationDto);
 
-    public void deleteProfileById(Long id);
+    public void deleteCertificationById(Long id);
 }

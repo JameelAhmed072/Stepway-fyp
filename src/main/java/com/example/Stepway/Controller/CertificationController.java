@@ -51,7 +51,7 @@ public class CertificationController {
 
     @DeleteMapping("/deleteCertification/{id}")
     public ResponseEntity<CertificationDto> deleteCertificationById(@PathVariable Long id){
-        certificationServiceImpl.deleteProfileById(id);
+        certificationServiceImpl.deleteCertificationById(id);
         return ResponseEntity.noContent().build();
     }
 }
