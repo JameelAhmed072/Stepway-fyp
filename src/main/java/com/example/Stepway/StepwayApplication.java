@@ -10,7 +10,7 @@ public class StepwayApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(StepwayApplication.class, args);
-		System.out.println("Hello Spring");
+		System.out.println("Hello STEPWAY");
 	}
 	@Bean
 	public ModelMapper modelMapper(){ // this will directly convert entity to dto, this is shortest way

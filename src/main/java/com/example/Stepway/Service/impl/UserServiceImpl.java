@@ -1,7 +1,9 @@
 package com.example.Stepway.Service.impl;
 
+import com.example.Stepway.Domain.Role;
 import com.example.Stepway.Domain.User;
 import com.example.Stepway.Exception.ResourceNotFound;
+import com.example.Stepway.Repository.RoleRepository;
 import com.example.Stepway.Repository.UserRepository;
 import com.example.Stepway.Service.UserService;
 import com.example.Stepway.dto.UserDto;
@@ -9,8 +11,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,21 +24,47 @@ public class UserServiceImpl implements UserService {
     UserRepository userRepository;
     @Autowired
     ModelMapper modelMapper;
+
+    @Autowired
+    RoleRepository roleRepository;
     @Override
     public List<UserDto> getAllUser() {
 
         List<User> users = userRepository.findAll();
-
-
         return users.stream().map(user -> modelMapper.map(user,UserDto.class)).collect(Collectors.toList());
     }
 
     @Override
     public UserDto createUser(UserDto userDto) {
 
-        User user = modelMapper.map(userDto,User.class);
-        User savedUser = userRepository.save(user);
-        return modelMapper.map(savedUser,UserDto.class);
+        User userByEmail = userRepository.findByEmail(userDto.getEmail());
+
+        if(userByEmail == null){
+            try {
+                Optional<Role> roles = Optional.ofNullable(roleRepository
+                        .findByName(userDto.getRole())
+                        .orElseThrow(() -> new RuntimeException("Role is incorrect")));
+
+                Set<Role> rolesList = new HashSet<>();
+                rolesList.add(roles.get());
+
+                User user = User.builder()
+                        .firstName(userDto.getFirstName())
+                        .lastName(userDto.getLastName())
+                        .password(userDto.getPassword())
+                        .role(rolesList)
+                        .phoneNumber(userDto.getPhoneNumber())
+                        .email(userDto.getEmail())
+                        .build();
+                User save = userRepository.save(user);
+                return modelMapper.map(save,UserDto.class);
+
+            }catch(Exception e){
+                throw new RuntimeException("Some information is incorrect");
+            }
+        }else{
+            throw new RuntimeException("Email is Already exist");
+        }
     }
 
     @Override
@@ -50,18 +80,31 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto updateUser(Long id, UserDto userDto) {
 
-        User user = userRepository.findById(id).orElseThrow(()->new ResourceNotFound("User not Found with the id :"+ id));
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            try {
+                Optional<Role> roles = Optional.ofNullable(roleRepository
+                        .findByName(userDto.getRole())
+                        .orElseThrow(() -> new RuntimeException("Role is incorrect")));
 
-        user.setFirstName(userDto.getFirstName());
-        user.setLastName(userDto.getLastName());
-        user.setEmail(userDto.getEmail());
-        user.setPassword(userDto.getPassword());
-        user.setRole(userDto.getRole());
-        user.setPhoneNumber(userDto.getPhoneNumber());
+                Set<Role> rolesList = new HashSet<>();
+                rolesList.add(roles.get());
 
-        User updatedUser = userRepository.save(user);
-        return modelMapper.map(updatedUser,UserDto.class);
-
+                User user1 = User.builder()
+                        .firstName(userDto.getFirstName())
+                        .lastName(userDto.getLastName())
+                        .email(userDto.getEmail())
+                        .password(userDto.getPassword())
+                        .role(rolesList)
+                        .phoneNumber(userDto.getPhoneNumber())
+                        .build();
+                User save = userRepository.save(user1);
+                return modelMapper.map(save, UserDto.class);
+            } catch (Exception e) {
+                throw new RuntimeException("Some information is incorrect");
+            }
+        }
+        throw new RuntimeException("User Not Found");
     }
 
     @Override
@@ -70,9 +113,8 @@ public class UserServiceImpl implements UserService {
         if(!userRepository.existsById(id)){
             throw new ResourceNotFound("User not found with Id : "+ id);
         }
-
         userRepository.deleteById(id);
-
-
     }
+
+
 }
