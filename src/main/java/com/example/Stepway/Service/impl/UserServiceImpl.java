@@ -55,6 +55,7 @@ public class UserServiceImpl implements UserService {
                         .role(rolesList)
                         .phoneNumber(userDto.getPhoneNumber())
                         .email(userDto.getEmail())
+                        .gender(userDto.getGender())
                         .build();
                 User save = userRepository.save(user);
                 return modelMapper.map(save,UserDto.class);
@@ -75,6 +76,21 @@ public class UserServiceImpl implements UserService {
         User user = optionalUser.orElseThrow(()->new ResourceNotFound("User not found with the id : "+ id));
 
         return modelMapper.map(user,UserDto.class);
+    }
+    public Long countStudentsWithRoleStudent() {
+        Long optionalUser = userRepository.countUsersWithRoleStudent();
+
+
+        return optionalUser;
+    }
+
+    public Long countMaleStudents(){
+        Long maleStudents = userRepository.countMaleStudents();
+        return maleStudents;
+    }
+    public Long countFemaleStudents(){
+        Long femlaeStudents = userRepository.countFemaleStudents();
+        return femlaeStudents;
     }
 
     @Override
@@ -97,6 +113,7 @@ public class UserServiceImpl implements UserService {
                         .password(userDto.getPassword())
                         .role(rolesList)
                         .phoneNumber(userDto.getPhoneNumber())
+                        .gender(userDto.getGender())
                         .build();
                 User save = userRepository.save(user1);
                 return modelMapper.map(save, UserDto.class);
@@ -115,6 +132,20 @@ public class UserServiceImpl implements UserService {
         }
         userRepository.deleteById(id);
     }
+
+    public List<UserDto> findStudent(){
+
+        List<User> users = userRepository.findUsersWithRoleStudent();
+        return users.stream().map(user -> modelMapper.map(user,UserDto.class)).collect(Collectors.toList());
+
+    }
+    public List<UserDto> findTeachers(){
+
+        List<User> users = userRepository.findUsersWithRoleTeacher();
+        return users.stream().map(user -> modelMapper.map(user,UserDto.class)).collect(Collectors.toList());
+
+    }
+
 
 
 }

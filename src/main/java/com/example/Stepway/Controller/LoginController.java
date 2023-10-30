@@ -36,7 +36,7 @@
 //            throw new Exception("Incorrect Username or Password ! ",e);
 //        }
 //
-//        //   I user and password are correct
+//        //   If email and password are correct and the below lines will run
 //        UserDetails userDetails = myUserDetailService.loadUserByUsername(loginCredentials.getEmail());
 //        String jwtToken = jwtUtil.generateToken(userDetails);
 //

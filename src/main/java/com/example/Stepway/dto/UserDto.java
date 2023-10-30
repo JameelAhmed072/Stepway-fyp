@@ -29,6 +29,7 @@ public class UserDto {
     private String email;
     @NotNull(message = "User password should not be Null")
     private String password;
+    private String gender;
 
     private String phoneNumber;
 

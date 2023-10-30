@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "*")
 public class UserController {
 
     @Autowired
@@ -52,6 +53,38 @@ public class UserController {
     public ResponseEntity<UserDto> deleteUserById(@PathVariable Long id){
         userServiceImpl.deleteUser(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/students")
+    public ResponseEntity<List<UserDto>> findUserByRoleStudent(){
+
+        List<UserDto> students = userServiceImpl.findStudent();
+        return ResponseEntity.ok(students);
+    }
+    @GetMapping("/teachers")
+    public ResponseEntity<List<UserDto>> findUserByRoleTeacher(){
+
+        List<UserDto> students = userServiceImpl.findTeachers();
+        return ResponseEntity.ok(students);
+    }
+
+    @GetMapping("/count")
+    public ResponseEntity<Long> countStudentsWithRoleStudent() {
+
+        Long total = userServiceImpl.countStudentsWithRoleStudent();
+        return ResponseEntity.ok(total);
+    }
+    @GetMapping("/maleStudents")
+    public ResponseEntity<Long> countTotalMaleStudents(){
+
+        Long maleStudents = userServiceImpl.countMaleStudents();
+        return ResponseEntity.ok(maleStudents);
+    }
+    @GetMapping("/femaleStudents")
+    public ResponseEntity<Long> countTotalFemaleStudents(){
+
+        Long femlaeStudents = userServiceImpl.countFemaleStudents();
+        return ResponseEntity.ok(femlaeStudents);
     }
 
 
