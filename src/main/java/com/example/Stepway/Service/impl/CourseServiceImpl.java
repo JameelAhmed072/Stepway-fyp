@@ -31,6 +31,13 @@ public class CourseServiceImpl implements CourseService {
         return courses.stream().map(course -> modelMapper.map(course, CourseDto.class)).collect(Collectors.toList());
     }
 
+    public Long totalEarning(){
+
+        Long totalEarning = courseRepository.totalEarning();
+
+        return totalEarning;
+    }
+
     @Override
     public CourseDto getCourseById(Long id) {
         Optional<Course> optionalCourse = courseRepository.findById(id);

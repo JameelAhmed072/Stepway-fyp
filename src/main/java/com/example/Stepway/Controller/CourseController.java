@@ -56,5 +56,11 @@ public class CourseController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/earning")
+    public ResponseEntity<Long> totalEarning(){
+        Long totEarning = courseService.totalEarning();
+
+        return ResponseEntity.ok(totEarning);
+    }
 
 }
