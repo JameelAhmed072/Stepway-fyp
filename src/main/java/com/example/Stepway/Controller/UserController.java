@@ -1,6 +1,5 @@
 package com.example.Stepway.Controller;
 
-import com.example.Stepway.Domain.User;
 import com.example.Stepway.Service.impl.UserServiceImpl;
 import com.example.Stepway.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +66,7 @@ public class UserController {
         List<UserDto> students = userServiceImpl.findTeachers();
         return ResponseEntity.ok(students);
     }
+
 
     @GetMapping("/count")
     public ResponseEntity<Long> countStudentsWithRoleStudent() {

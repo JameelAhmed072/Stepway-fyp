@@ -3,7 +3,6 @@ package com.example.Stepway.Controller;
 
 import com.example.Stepway.Service.impl.CourseServiceImpl;
 import com.example.Stepway.dto.CourseDto;
-import com.example.Stepway.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
