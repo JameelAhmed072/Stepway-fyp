@@ -78,4 +78,12 @@ public class CourseServiceImpl implements CourseService {
         }
         courseRepository.deleteById(id);
     }
+
+
+    public List<Course> searchByFirstLetter(String c) {
+        // You can add validation or additional logic here if needed
+        List<Course> cr = courseRepository.searchByFirstLetter(c);
+        return cr;
+    }
+
 }

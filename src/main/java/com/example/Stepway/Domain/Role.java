@@ -14,9 +14,7 @@ import java.util.Set;
 @Setter
 @Builder
 
-
 @Entity
-
 public class Role {
 
     @Id

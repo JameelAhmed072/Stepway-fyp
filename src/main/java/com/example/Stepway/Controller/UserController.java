@@ -1,6 +1,8 @@
 package com.example.Stepway.Controller;
 
+import com.example.Stepway.Domain.User;
 import com.example.Stepway.Service.impl.UserServiceImpl;
+import com.example.Stepway.dto.SearchCriteria;
 import com.example.Stepway.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,18 @@ public class UserController {
 
     @Autowired
     UserServiceImpl userServiceImpl;
+
+//    @GetMapping("/")
+//    public List<User> getUserWithFilters(@RequestParam(required = false) String firstName,
+//                                         @RequestParam(required = false) String lastName
+//                                         ){
+//        return userServiceImpl.getUserWithFilters(firstName,lastName);
+//    }
+    @PostMapping("/user/search")
+    public ResponseEntity<List<User>> filterUser(@RequestBody SearchCriteria searchCriteria){
+        List<User> users = userServiceImpl.getSearchdUser(searchCriteria);
+        return ResponseEntity.ok(users);
+    }
 
 
     @PostMapping("/user")

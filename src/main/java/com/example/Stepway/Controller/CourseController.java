@@ -1,6 +1,7 @@
 package com.example.Stepway.Controller;
 
 
+import com.example.Stepway.Domain.Course;
 import com.example.Stepway.Service.impl.CourseServiceImpl;
 import com.example.Stepway.dto.CourseDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,4 +63,11 @@ public class CourseController {
         return ResponseEntity.ok(totEarning);
     }
 
+
+    @GetMapping("/courses/{name}")
+    public ResponseEntity<List<Course>> searchByFirstLetter(@PathVariable("name") String name){
+
+        List<Course> c = courseService.searchByFirstLetter(name);
+        return ResponseEntity.ok(c);
+    }
 }

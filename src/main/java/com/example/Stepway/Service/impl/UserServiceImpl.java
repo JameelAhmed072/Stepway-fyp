@@ -5,16 +5,21 @@ import com.example.Stepway.Domain.User;
 import com.example.Stepway.Exception.ResourceNotFound;
 import com.example.Stepway.Repository.RoleRepository;
 import com.example.Stepway.Repository.UserRepository;
+import com.example.Stepway.Repository.UserSpecification;
 import com.example.Stepway.Service.UserService;
+import com.example.Stepway.dto.SearchCriteria;
 import com.example.Stepway.dto.UserDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,6 +32,38 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     RoleRepository roleRepository;
+    @Autowired
+    EntityManager entityManager;  // entity manager gives us criteria builder
+
+//    public List<User> getUserWithFilters(String firstName,String lastName){
+//
+//        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+//        CriteriaQuery<User> cq = criteriaBuilder.createQuery(User.class);
+//        Root<User>  userRoot = cq.from(User.class);
+//        List<Predicate> predicates = new ArrayList<>();
+//        if(firstName != null){
+//            predicates.add(criteriaBuilder.like(userRoot.get("firstName"),firstName));
+//        }
+//        if(lastName != null){
+//            predicates.add(criteriaBuilder.like(userRoot.get("lastName"),firstName));
+//        }
+//
+//        cq.where(predicates.toArray(new Predicate[predicates.size()]));
+//        TypedQuery<User> query = entityManager.createQuery(cq);
+//        return query.getResultList();
+//    }
+
+
+    public List<User> getSearchdUser(SearchCriteria searchCriteria){
+        try {
+            UserSpecification userSpecification = new UserSpecification(searchCriteria);
+            List<User> users = userRepository.findAll(userSpecification);
+            return users;
+        }
+        catch (Exception e){
+            throw new RuntimeException("No Employee Exist "+e);
+        }
+    }
     @Override
     public List<UserDto> getAllUser() {
 
