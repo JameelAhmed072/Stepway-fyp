@@ -23,5 +23,13 @@ public interface CourseRepository extends JpaRepository<Course,Long> {
     public List<Course> searchByFirstLetter(String c);
 
 
+    @Query(value = "SELECT * " +
+            "FROM course c " +
+            "INNER JOIN enrollment e ON c.id = e.course_id " +
+            "INNER JOIN user u ON e.user_id = u.id " +
+            "WHERE u.id = ?", nativeQuery = true)
+    public List<Course> getAllEnrolledCourses(Long id);
+
+
 
 }

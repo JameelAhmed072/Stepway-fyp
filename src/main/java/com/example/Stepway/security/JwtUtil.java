@@ -1,8 +1,11 @@
 package com.example.Stepway.security;
 
+import com.example.Stepway.Domain.User;
+import com.example.Stepway.Repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +21,7 @@ import java.util.function.Function;
 
 @Service
 public class JwtUtil {
+
 
     private final String SECRET_KEY = "404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970";
 
@@ -48,6 +52,8 @@ public class JwtUtil {
         // Extract roles and permissions into separate lists
         List<String> roles = new ArrayList<>();
         List<String> permissions = new ArrayList<>();
+        List<Long> courses = new ArrayList<>();
+
 
         userDetails.getAuthorities().forEach(authority -> {
             String authorityName = authority.getAuthority();

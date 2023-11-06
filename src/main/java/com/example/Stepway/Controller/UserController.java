@@ -1,11 +1,16 @@
 package com.example.Stepway.Controller;
 
+import com.example.Stepway.Domain.Course;
 import com.example.Stepway.Domain.User;
 import com.example.Stepway.Service.impl.UserServiceImpl;
+import com.example.Stepway.dto.CustomUserDetails;
 import com.example.Stepway.dto.SearchCriteria;
 import com.example.Stepway.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -25,6 +30,7 @@ public class UserController {
 //                                         ){
 //        return userServiceImpl.getUserWithFilters(firstName,lastName);
 //    }
+
     @PostMapping("/user/search")
     public ResponseEntity<List<User>> filterUser(@RequestBody SearchCriteria searchCriteria){
         List<User> users = userServiceImpl.getSearchdUser(searchCriteria);
@@ -80,8 +86,6 @@ public class UserController {
         List<UserDto> students = userServiceImpl.findTeachers();
         return ResponseEntity.ok(students);
     }
-
-
     @GetMapping("/count")
     public ResponseEntity<Long> countStudentsWithRoleStudent() {
 
@@ -101,6 +105,21 @@ public class UserController {
         return ResponseEntity.ok(femlaeStudents);
     }
 
+    @GetMapping("/username")
+    public ResponseEntity<String> getUserName() {
+        // Get the currently logged-in user's ID
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof CustomUserDetails) {
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+            Long currentUserId = userDetails.getUserId();
+
+                String userName = userServiceImpl.getUserByName(currentUserId);
+                return ResponseEntity.ok(userName);
+
+        } else {
+            throw new RuntimeException("User with this Id does not found");
+        }
+    }
 
 
 }

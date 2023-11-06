@@ -183,6 +183,10 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    public String getUserByName(long id){
+        return userRepository.getLoginName(id);
+    }
+
 
 
 

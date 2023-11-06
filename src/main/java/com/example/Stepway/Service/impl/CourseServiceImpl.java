@@ -86,4 +86,14 @@ public class CourseServiceImpl implements CourseService {
         return cr;
     }
 
+    public List<Course> getCoursesForUser(Long userId) {
+        // Implement logic to fetch courses for a specific user by their user ID.
+        // This can vary based on your data model and repository structure.
+        // Here's a simplified example:
+
+        List<Course> userCourses = courseRepository.getAllEnrolledCourses(userId);
+
+        return userCourses;
+    }
+
 }

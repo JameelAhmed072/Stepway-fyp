@@ -4,8 +4,12 @@ package com.example.Stepway.Controller;
 import com.example.Stepway.Domain.Course;
 import com.example.Stepway.Service.impl.CourseServiceImpl;
 import com.example.Stepway.dto.CourseDto;
+import com.example.Stepway.dto.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -19,6 +23,28 @@ public class CourseController {
 
     @Autowired
     CourseServiceImpl courseService;
+
+
+
+
+
+
+    @GetMapping("/courses")
+    public ResponseEntity<List<Course>> getCoursesForCurrentUser() {
+        // Get the currently logged-in user's ID
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && ((Authentication) authentication).getPrincipal() instanceof CustomUserDetails) {
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+            Long currentUserId = userDetails.getUserId();
+
+            // Use the user ID to fetch courses
+            List<Course> userCourses = courseService.getCoursesForUser(currentUserId);
+
+            return ResponseEntity.ok(userCourses);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
 
     @PostMapping("/course")
     public ResponseEntity<CourseDto> addCourse(@Valid @RequestBody CourseDto courseDto){

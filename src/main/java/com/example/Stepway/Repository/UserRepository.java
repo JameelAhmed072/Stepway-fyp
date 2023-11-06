@@ -46,6 +46,8 @@ public interface UserRepository extends JpaRepository<User,Long>, JpaSpecificati
     Long countFemaleStudents();
 
 
+    @Query(value = "SELECT FIRST_NAME FROM USER WHERE ID = ?" , nativeQuery = true)
+    public String getLoginName(Long id);
 
 
 }
