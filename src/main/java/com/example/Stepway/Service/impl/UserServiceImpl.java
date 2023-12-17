@@ -29,11 +29,23 @@ public class UserServiceImpl implements UserService {
     UserRepository userRepository;
     @Autowired
     ModelMapper modelMapper;
-
     @Autowired
     RoleRepository roleRepository;
     @Autowired
     EntityManager entityManager;  // entity manager gives us criteria builder
+
+
+    //   I have made this constuctor for testing purpose
+    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, RoleRepository roleRepository, EntityManager entityManager) {
+        this.userRepository = userRepository;
+        this.modelMapper = modelMapper;
+        this.roleRepository = roleRepository;
+        this.entityManager = entityManager;
+    }
+
+
+    //  =================================>    this code for the criteria builder
+
 
 //    public List<User> getUserWithFilters(String firstName,String lastName){
 //
@@ -52,6 +64,9 @@ public class UserServiceImpl implements UserService {
 //        TypedQuery<User> query = entityManager.createQuery(cq);
 //        return query.getResultList();
 //    }
+//  ======================>>>>>>>>>>>>>>>
+
+
 
 
     public List<User> getSearchdUser(SearchCriteria searchCriteria){
@@ -185,6 +200,13 @@ public class UserServiceImpl implements UserService {
 
     public String getUserByName(long id){
         return userRepository.getLoginName(id);
+    }
+
+
+    public List<UserDto> searchFirstName(String firstName){
+        List<User> users = this.userRepository.findByFirstNameContaining(firstName);
+        List<UserDto> collect = users.stream().map(user -> this.modelMapper.map(user, UserDto.class)).collect(Collectors.toList());
+        return collect;
     }
 
 

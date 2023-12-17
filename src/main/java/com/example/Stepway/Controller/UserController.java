@@ -121,5 +121,11 @@ public class UserController {
         }
     }
 
+    @GetMapping("user/search/{firstName}")
+    public ResponseEntity<List<UserDto>> searchUserByFirstName(@PathVariable String firstName){
+        List<UserDto> userDtos = this.userServiceImpl.searchFirstName(firstName);
+        return new ResponseEntity<List<UserDto>>(userDtos,HttpStatus.OK);
+    }
+
 
 }

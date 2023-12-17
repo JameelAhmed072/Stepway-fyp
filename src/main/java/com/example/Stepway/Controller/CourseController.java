@@ -27,8 +27,6 @@ public class CourseController {
 
 
 
-
-
     @GetMapping("/courses")
     public ResponseEntity<List<Course>> getCoursesForCurrentUser() {
         // Get the currently logged-in user's ID

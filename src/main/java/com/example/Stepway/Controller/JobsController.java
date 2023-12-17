@@ -41,7 +41,6 @@ public class JobsController {
 
         return ResponseEntity.ok(jobs);
     }
-
     @PutMapping("/job/{id}")
     public ResponseEntity<JobsDto> updateJob(@Valid @RequestBody JobsDto jobsDto, @PathVariable Long id){
 
